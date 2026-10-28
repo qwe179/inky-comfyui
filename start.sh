@@ -4,11 +4,18 @@
 # 로그는 /tmp/extra_models.log, 마지막 줄에 업데이트된 ComfyUI 커밋이 남는다.
 
 until [ -d /ComfyUI/models ]; do sleep 5; done
-mkdir -p /ComfyUI/models/checkpoints /ComfyUI/user/default/workflows /ComfyUI/custom_nodes
+mkdir -p /ComfyUI/models/checkpoints /ComfyUI/models/text_encoders /ComfyUI/user/default/workflows /ComfyUI/custom_nodes
 
 R=https://raw.githubusercontent.com/qwe179/inky-comfyui/main
-wget -q -O /ComfyUI/user/default/workflows/audio_yue2_song_list.json $R/workflows/audio_yue2_song_list.json
+for w in audio_yue2_song_list audio_stable_audio_3_song_list; do
+  wget -q -O /ComfyUI/user/default/workflows/$w.json $R/workflows/$w.json
+done
 wget -q -O /ComfyUI/custom_nodes/inky_song_list.py $R/custom_nodes/inky_song_list.py
+
+# Stable Audio 3 Medium (공식 템플릿 기본 구성, 합계 약 13.9GB): 체크포인트 + 텍스트 인코더 2개
+wget -c -P /ComfyUI/models/checkpoints https://huggingface.co/Comfy-Org/stable-audio-3/resolve/main/checkpoints/stable_audio_3_medium.safetensors
+wget -c -P /ComfyUI/models/text_encoders https://huggingface.co/Comfy-Org/stable-audio-3/resolve/main/text_encoders/t5gemma_b_b_ul2.safetensors
+wget -c -P /ComfyUI/models/text_encoders https://huggingface.co/Comfy-Org/Qwen3.5/resolve/main/text_encoders/qwen3.5_2b_bf16.safetensors
 
 wget -c -P /ComfyUI/models/checkpoints https://huggingface.co/Comfy-Org/YuE2/resolve/main/checkpoints/yue2_3b_bf16.safetensors
 wget -c -P /ComfyUI/models/checkpoints https://huggingface.co/Comfy-Org/YuE2/resolve/main/checkpoints/yue2_3b_int8_convrot.safetensors
