@@ -1,6 +1,12 @@
 # inky-comfyui
 
-INKY WORLD 영상용 ComfyUI 워크플로와 커스텀 노드. RunPod 시작 명령이 이 저장소에서 파일을 받아 간다.
+INKY WORLD 영상용 ComfyUI 워크플로와 커스텀 노드. RunPod 시작 명령이 이 저장소의 `start.sh`를 받아 실행하고, `start.sh`가 아래 파일을 설치한다.
+
+RunPod Container Start Command:
+
+```
+bash -c '(curl -fsSL https://raw.githubusercontent.com/qwe179/inky-comfyui/main/start.sh | bash) > /tmp/extra_models.log 2>&1 & exec /start_script.sh'
+```
 
 | 파일 | 넣는 곳 |
 |---|---|
