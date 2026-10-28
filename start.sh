@@ -4,16 +4,11 @@
 # 로그는 /tmp/extra_models.log, 마지막 줄에 업데이트된 ComfyUI 커밋이 남는다.
 
 until [ -d /ComfyUI/models ]; do sleep 5; done
-mkdir -p /ComfyUI/models/checkpoints /ComfyUI/models/loras /ComfyUI/user/default/workflows /ComfyUI/custom_nodes
+mkdir -p /ComfyUI/models/checkpoints /ComfyUI/user/default/workflows /ComfyUI/custom_nodes
 
 R=https://raw.githubusercontent.com/qwe179/inky-comfyui/main
-for w in audio_yue2_song_list audio_yue2_song_list_mothersuperior; do
-  wget -q -O /ComfyUI/user/default/workflows/$w.json $R/workflows/$w.json
-done
+wget -q -O /ComfyUI/user/default/workflows/audio_yue2_song_list.json $R/workflows/audio_yue2_song_list.json
 wget -q -O /ComfyUI/custom_nodes/inky_song_list.py $R/custom_nodes/inky_song_list.py
-
-# Mothersuperior 연주곡 LoRA (CLIP 쪽, 213MB). CC BY-NC 4.0 비상업이라 비교·시험용.
-wget -c -P /ComfyUI/models/loras https://huggingface.co/Mothersuperior/YuE2-instrumental-cot-full-loras/resolve/main/ar_lora_inst_v3abc_comfyui.safetensors
 
 wget -c -P /ComfyUI/models/checkpoints https://huggingface.co/Comfy-Org/YuE2/resolve/main/checkpoints/yue2_3b_bf16.safetensors
 wget -c -P /ComfyUI/models/checkpoints https://huggingface.co/Comfy-Org/YuE2/resolve/main/checkpoints/yue2_3b_int8_convrot.safetensors
