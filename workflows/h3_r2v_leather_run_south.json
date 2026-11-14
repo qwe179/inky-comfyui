@@ -5,49 +5,6 @@
  "last_link_id": 295,
  "nodes": [
   {
-   "id": 92,
-   "type": "SaveVideo",
-   "pos": [
-    750,
-    4870
-   ],
-   "size": [
-    1380,
-    970
-   ],
-   "flags": {},
-   "order": 28,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "video",
-     "type": "VIDEO",
-     "link": 260
-    }
-   ],
-   "outputs": [
-    {
-     "name": "video",
-     "type": "VIDEO",
-     "links": null
-    }
-   ],
-   "properties": {
-    "cnr_id": "comfy-core",
-    "ver": "0.33.0"
-   },
-   "widgets_values": [
-    "video/MiniMax_H3",
-    "auto",
-    "auto"
-   ],
-   "widgets_values_named": {
-    "filename_prefix": "video/MiniMax_H3",
-    "format": "auto",
-    "codec": "auto"
-   }
-  },
-  {
    "id": 115,
    "type": "ResolutionSelector",
    "pos": [
@@ -97,60 +54,6 @@
    },
    "color": "#322",
    "bgcolor": "#533"
-  },
-  {
-   "id": 116,
-   "type": "MarkdownNote",
-   "pos": [
-    -2030,
-    4850
-   ],
-   "size": [
-    450,
-    890
-   ],
-   "flags": {},
-   "order": 1,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [],
-   "title": "Note: MiniMax H3",
-   "properties": {},
-   "widgets_values": [
-    "## MiniMax H3\n\n**Input Assets**\n- [red_superboy_on_city_roof.png](https://raw.githubusercontent.com/Comfy-Org/workflow_templates/refs/heads/main/input/red_superboy_on_city_roof.png) — required workflow input (`input/red_superboy_on_city_roof.png`)\n- [mecha_dragon_lightning.png](https://raw.githubusercontent.com/Comfy-Org/workflow_templates/refs/heads/main/input/mecha_dragon_lightning.png) — required workflow input (`input/mecha_dragon_lightning.png`)\n\n[MiniMax H3](https://www.minimax.io/blog/minimax-h3) is MiniMax's general-purpose, omni-modal generation model. It jointly understands text, image, video, and audio, and generates video with **native stereo audio**: voice, sound effects, and music are modeled jointly in a single forward pass, not layered on afterward. Output is up to 2K resolution, 24fps, and up to about 15 seconds.\n\n## ComfyUI links\n- [ComfyUI#15224](https://github.com/Comfy-Org/ComfyUI/pull/15224)\n- [🤗 Comfy-Org/MiniMax-H3](https://huggingface.co/Comfy-Org/MiniMax-H3)\n\n## About this workflow\n\nThis template runs the **reference-to-video (ref2va)** task using the `MiniMaxH3ReferenceToVideo` node. It takes any mix of reference images, videos, and standalone audio, and weaves them into the generation to lock in a character's identity, a style, a motion, a camera move, or a voice.\n\n**Key inputs**\n\n- **ref_images / ref_videos / ref_video_audios / ref_audios**: up to 9 reference images, 3 reference videos (each may carry its own paired soundtrack), and 3 standalone reference audio clips\n- **prompt**: reference the inputs by tag, in the exact order they were connected, for example `<Picture 1>`, `<Video 1>`, `<Audio 1>`, then describe the target scene, motion, and audio\n- **ref_image_size**: `match` scales references down to the generation's resolution (faster); `max` keeps up to a 2048px short edge for stronger identity fidelity, at the cost of speed since reference tokens ride along every sampling step\n- **width / height**: set via Resolution Selector.\n- **duration (seconds)**: converted to a valid frame `length` by the Math Expression node\n\n**Sampling and decode**\n\n- Sampler: `res_multistep`. `beta` or `normal` scheduler tends to outperform `simple` for reference-heavy prompts like this one\n- The sampler's joint audio+video `LATENT` output feeds directly into both `VAEDecode` (video, `minimax_h3_video_vae_int8_convrot`) and `VAEDecodeAudio` (audio, `minimax_h3_audio_vae_fp32`); each decode node automatically pulls its own half out of the packed latent. `CreateVideo` then muxes the two into a single MP4 with synced sound\n- The diffusion model here is `minimax_h3_ref2va_pruned_int8_convrot.safetensors`, a different set of weights from the `fl2va` model used by the t2v/i2v templates\n\nRef2va's output is very sensitive to prompt wording; matching the reference tags precisely and being explicit about which reference drives which part of the shot tends to work best.\n"
-   ],
-   "widgets_values_named": {
-    "text": "## MiniMax H3\n\n**Input Assets**\n- [red_superboy_on_city_roof.png](https://raw.githubusercontent.com/Comfy-Org/workflow_templates/refs/heads/main/input/red_superboy_on_city_roof.png) — required workflow input (`input/red_superboy_on_city_roof.png`)\n- [mecha_dragon_lightning.png](https://raw.githubusercontent.com/Comfy-Org/workflow_templates/refs/heads/main/input/mecha_dragon_lightning.png) — required workflow input (`input/mecha_dragon_lightning.png`)\n\n[MiniMax H3](https://www.minimax.io/blog/minimax-h3) is MiniMax's general-purpose, omni-modal generation model. It jointly understands text, image, video, and audio, and generates video with **native stereo audio**: voice, sound effects, and music are modeled jointly in a single forward pass, not layered on afterward. Output is up to 2K resolution, 24fps, and up to about 15 seconds.\n\n## ComfyUI links\n- [ComfyUI#15224](https://github.com/Comfy-Org/ComfyUI/pull/15224)\n- [🤗 Comfy-Org/MiniMax-H3](https://huggingface.co/Comfy-Org/MiniMax-H3)\n\n## About this workflow\n\nThis template runs the **reference-to-video (ref2va)** task using the `MiniMaxH3ReferenceToVideo` node. It takes any mix of reference images, videos, and standalone audio, and weaves them into the generation to lock in a character's identity, a style, a motion, a camera move, or a voice.\n\n**Key inputs**\n\n- **ref_images / ref_videos / ref_video_audios / ref_audios**: up to 9 reference images, 3 reference videos (each may carry its own paired soundtrack), and 3 standalone reference audio clips\n- **prompt**: reference the inputs by tag, in the exact order they were connected, for example `<Picture 1>`, `<Video 1>`, `<Audio 1>`, then describe the target scene, motion, and audio\n- **ref_image_size**: `match` scales references down to the generation's resolution (faster); `max` keeps up to a 2048px short edge for stronger identity fidelity, at the cost of speed since reference tokens ride along every sampling step\n- **width / height**: set via Resolution Selector.\n- **duration (seconds)**: converted to a valid frame `length` by the Math Expression node\n\n**Sampling and decode**\n\n- Sampler: `res_multistep`. `beta` or `normal` scheduler tends to outperform `simple` for reference-heavy prompts like this one\n- The sampler's joint audio+video `LATENT` output feeds directly into both `VAEDecode` (video, `minimax_h3_video_vae_int8_convrot`) and `VAEDecodeAudio` (audio, `minimax_h3_audio_vae_fp32`); each decode node automatically pulls its own half out of the packed latent. `CreateVideo` then muxes the two into a single MP4 with synced sound\n- The diffusion model here is `minimax_h3_ref2va_pruned_int8_convrot.safetensors`, a different set of weights from the `fl2va` model used by the t2v/i2v templates\n\nRef2va's output is very sensitive to prompt wording; matching the reference tags precisely and being explicit about which reference drives which part of the shot tends to work best.\n"
-   },
-   "color": "#222",
-   "bgcolor": "#000"
-  },
-  {
-   "id": 117,
-   "type": "MarkdownNote",
-   "pos": [
-    -2500,
-    4850
-   ],
-   "size": [
-    440,
-    740
-   ],
-   "flags": {},
-   "order": 2,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [],
-   "title": "Note: Model Links",
-   "properties": {},
-   "widgets_values": [
-    "## Model Links\n\n- [ModelScope:Comfy-Org/MiniMax-H3](https://modelscope.cn/models/Comfy-Org/MiniMax-H3)\n\n[🤗 Comfy-Org/MiniMax-H3](https://huggingface.co/Comfy-Org/MiniMax-H3)\n\n**vae**\n\n- [minimax_h3_video_vae_int8_convrot.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_video_vae_int8_convrot.safetensors) (2.62 GB)\n- [minimax_h3_audio_vae_fp32.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_audio_vae_fp32.safetensors) (577.2 MB)\n\n**diffusion_models**\n\n- [minimax_h3_ref2va_pruned_int8_convrot.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors) (19.53 GB)\n\n**text_encoders**\n\n- [qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors) (14.61 GB)\n\n**loras**\n\n- 4 steps: [minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/loras/minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors) (1.82 GB)\n\n**embeddings**\n\n- [10 style embeddings](https://huggingface.co/Comfy-Org/MiniMax-H3/tree/main/embeddings) (`minimaxh3_*.safetensors`), for example `minimaxh3_art_is_explosion`\n\n## Model Storage Location\n\n```\n📂 ComfyUI/\n├── 📂 models/\n│   ├── 📂 vae/\n│   │   ├── minimax_h3_video_vae_int8_convrot.safetensors\n│   │   └── minimax_h3_audio_vae_fp32.safetensors\n│   ├── 📂 diffusion_models/\n│   │   └── minimax_h3_ref2va_pruned_int8_convrot.safetensors\n│   ├── 📂 text_encoders/\n│   │   └── qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors\n│   ├── 📂 loras/\n│   │   └── minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors\n│   └── 📂 embeddings/\n│       └── minimaxh3_art_is_explosion.safetensors\n```\n\n## Using Prompt Embeddings\n\nPrompt embeddings (supported since [ComfyUI#15697](https://github.com/Comfy-Org/ComfyUI/pull/15697)) add reusable style tokens to your prompt. Download one or more embeddings from the folder above into `ComfyUI/models/embeddings/`, then reference one in the prompt text with the `embedding:` prefix and the filename without its extension, for example:\n\n`embedding:minimaxh3_art_is_explosion`\n\nUsing an embedding is optional and the template runs fine without one.\n\n## Report Issue\n\nNote: Please update ComfyUI first ([guide](https://docs.comfy.org/installation/update_comfyui)) and prepare required models. Desktop/Cloud updates follow stable releases, so some nightly-supported models may not be available yet.\n\n- Cannot run / runtime errors: [ComfyUI/issues](https://github.com/comfyanonymous/ComfyUI/issues)\n- UI / frontend issues: [ComfyUI_frontend/issues](https://github.com/Comfy-Org/ComfyUI_frontend/issues)\n- Workflow issues: [workflow_templates/issues](https://github.com/Comfy-Org/workflow_templates/issues)\n"
-   ],
-   "widgets_values_named": {
-    "text": "## Model Links\n\n- [ModelScope:Comfy-Org/MiniMax-H3](https://modelscope.cn/models/Comfy-Org/MiniMax-H3)\n\n[🤗 Comfy-Org/MiniMax-H3](https://huggingface.co/Comfy-Org/MiniMax-H3)\n\n**vae**\n\n- [minimax_h3_video_vae_int8_convrot.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_video_vae_int8_convrot.safetensors) (2.62 GB)\n- [minimax_h3_audio_vae_fp32.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/vae/minimax_h3_audio_vae_fp32.safetensors) (577.2 MB)\n\n**diffusion_models**\n\n- [minimax_h3_ref2va_pruned_int8_convrot.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors) (19.53 GB)\n\n**text_encoders**\n\n- [qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors) (14.61 GB)\n\n**loras**\n\n- 4 steps: [minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors](https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/loras/minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors) (1.82 GB)\n\n**embeddings**\n\n- [10 style embeddings](https://huggingface.co/Comfy-Org/MiniMax-H3/tree/main/embeddings) (`minimaxh3_*.safetensors`), for example `minimaxh3_art_is_explosion`\n\n## Model Storage Location\n\n```\n📂 ComfyUI/\n├── 📂 models/\n│   ├── 📂 vae/\n│   │   ├── minimax_h3_video_vae_int8_convrot.safetensors\n│   │   └── minimax_h3_audio_vae_fp32.safetensors\n│   ├── 📂 diffusion_models/\n│   │   └── minimax_h3_ref2va_pruned_int8_convrot.safetensors\n│   ├── 📂 text_encoders/\n│   │   └── qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors\n│   ├── 📂 loras/\n│   │   └── minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors\n│   └── 📂 embeddings/\n│       └── minimaxh3_art_is_explosion.safetensors\n```\n\n## Using Prompt Embeddings\n\nPrompt embeddings (supported since [ComfyUI#15697](https://github.com/Comfy-Org/ComfyUI/pull/15697)) add reusable style tokens to your prompt. Download one or more embeddings from the folder above into `ComfyUI/models/embeddings/`, then reference one in the prompt text with the `embedding:` prefix and the filename without its extension, for example:\n\n`embedding:minimaxh3_art_is_explosion`\n\nUsing an embedding is optional and the template runs fine without one.\n\n## Report Issue\n\nNote: Please update ComfyUI first ([guide](https://docs.comfy.org/installation/update_comfyui)) and prepare required models. Desktop/Cloud updates follow stable releases, so some nightly-supported models may not be available yet.\n\n- Cannot run / runtime errors: [ComfyUI/issues](https://github.com/comfyanonymous/ComfyUI/issues)\n- UI / frontend issues: [ComfyUI_frontend/issues](https://github.com/Comfy-Org/ComfyUI_frontend/issues)\n- Workflow issues: [workflow_templates/issues](https://github.com/Comfy-Org/workflow_templates/issues)\n"
-   },
-   "color": "#222",
-   "bgcolor": "#000"
   },
   {
    "id": 119,
@@ -216,7 +119,6 @@
      "name": "VAE",
      "type": "VAE",
      "links": [
-      250,
       274
      ]
     }
@@ -238,49 +140,6 @@
    ],
    "widgets_values_named": {
     "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
-   }
-  },
-  {
-   "id": 121,
-   "type": "VAEDecodeAudio",
-   "pos": [
-    20,
-    5750
-   ],
-   "size": [
-    230,
-    60
-   ],
-   "flags": {
-    "collapsed": false
-   },
-   "order": 26,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "samples",
-     "type": "LATENT",
-     "link": 281
-    },
-    {
-     "name": "vae",
-     "type": "VAE",
-     "link": 250
-    }
-   ],
-   "outputs": [
-    {
-     "name": "AUDIO",
-     "type": "AUDIO",
-     "links": [
-      259
-     ]
-    }
-   ],
-   "properties": {
-    "cnr_id": "comfy-core",
-    "ver": "0.33.0",
-    "Node name for S&R": "VAEDecodeAudio"
    }
   },
   {
@@ -316,7 +175,6 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      258,
       294
      ]
     }
@@ -463,8 +321,7 @@
      "name": "output",
      "type": "LATENT",
      "links": [
-      280,
-      281
+      280
      ]
     },
     {
@@ -650,56 +507,6 @@
    "widgets_values_named": {
     "noise_seed": 261662374822964,
     "control_after_generate": "randomize"
-   }
-  },
-  {
-   "id": 130,
-   "type": "CreateVideo",
-   "pos": [
-    330,
-    5650
-   ],
-   "size": [
-    270,
-    110
-   ],
-   "flags": {},
-   "order": 27,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "images",
-     "type": "IMAGE",
-     "link": 258
-    },
-    {
-     "name": "audio",
-     "shape": 7,
-     "type": "AUDIO",
-     "link": 259
-    }
-   ],
-   "outputs": [
-    {
-     "name": "VIDEO",
-     "type": "VIDEO",
-     "links": [
-      260
-     ]
-    }
-   ],
-   "properties": {
-    "cnr_id": "comfy-core",
-    "ver": "0.33.0",
-    "Node name for S&R": "CreateVideo"
-   },
-   "widgets_values": [
-    24,
-    8
-   ],
-   "widgets_values_named": {
-    "fps": 24,
-    "bit_depth": 8
    }
   },
   {
@@ -1025,33 +832,6 @@
    },
    "color": "#322",
    "bgcolor": "#533"
-  },
-  {
-   "id": 140,
-   "type": "MarkdownNote",
-   "pos": [
-    -1880,
-    6070
-   ],
-   "size": [
-    300,
-    520
-   ],
-   "flags": {},
-   "order": 13,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [],
-   "title": "Note: Size Settings Reference",
-   "properties": {},
-   "widgets_values": [
-    "| megapixels | Aspect | Output (multiple=32) |\n|---|---|---|\n| 0.2 | 16:9 | 608 x 352 |\n| 0.3 | 16:9 | 736 x 416 |\n| 0.4 | 16:9 | 864 x 480 |\n| 0.5 | 16:9 | 960 x 544 |\n| 0.6 | 16:9 | 1056 x 608 |\n| 0.7 | 16:9 | 1152 x 640 |\n| 0.8 | 16:9 | 1216 x 672 |\n| 0.9 | 16:9 | 1280 x 736 |\n| 0.98 | 16:9 | 1344 x 768 (official 768p) |"
-   ],
-   "widgets_values_named": {
-    "text": "| megapixels | Aspect | Output (multiple=32) |\n|---|---|---|\n| 0.2 | 16:9 | 608 x 352 |\n| 0.3 | 16:9 | 736 x 416 |\n| 0.4 | 16:9 | 864 x 480 |\n| 0.5 | 16:9 | 960 x 544 |\n| 0.6 | 16:9 | 1056 x 608 |\n| 0.7 | 16:9 | 1152 x 640 |\n| 0.8 | 16:9 | 1216 x 672 |\n| 0.9 | 16:9 | 1280 x 736 |\n| 0.98 | 16:9 | 1344 x 768 (official 768p) |"
-   },
-   "color": "#222",
-   "bgcolor": "#000"
   },
   {
    "id": 141,
@@ -1507,14 +1287,6 @@
  ],
  "links": [
   [
-   250,
-   120,
-   0,
-   121,
-   1,
-   "VAE"
-  ],
-  [
    251,
    119,
    0,
@@ -1561,30 +1333,6 @@
    125,
    3,
    "SIGMAS"
-  ],
-  [
-   258,
-   122,
-   0,
-   130,
-   0,
-   "IMAGE"
-  ],
-  [
-   259,
-   121,
-   0,
-   130,
-   1,
-   "AUDIO"
-  ],
-  [
-   260,
-   130,
-   0,
-   92,
-   0,
-   "VIDEO"
   ],
   [
    261,
@@ -1679,14 +1427,6 @@
    125,
    0,
    122,
-   0,
-   "LATENT"
-  ],
-  [
-   281,
-   125,
-   0,
-   121,
    0,
    "LATENT"
   ],
