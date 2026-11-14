@@ -40,6 +40,8 @@ cp -r $W/pixel-studio-comfyui-workflows/custom_nodes/comfyui_workflows_utils $C/
 # 전용 노드가 쓰는 패키지: scipy, opencv, kornia는 템플릿에 보통 있지만 없으면 설치. pixeloe는 --no-deps (저장소 안내).
 $PY -c "import scipy, cv2, kornia" || $PIP install scipy opencv-python-headless kornia
 $PIP install --no-deps pixeloe==1.0.0
+# layered.py가 import potrace를 쓴다. 순수 파이썬 포트 패키지 이름은 potracer. 없으면 전용 노드 묶음 전체가 IMPORT FAILED가 된다.
+$PIP install potracer
 
 # 3) 워크플로 복사 + 옷 참조 칸 붙인 버전 만들기
 WF=$C/user/default/workflows
