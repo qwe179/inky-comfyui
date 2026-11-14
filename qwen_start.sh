@@ -89,6 +89,10 @@ json.dump(d, open(dst, "w"), ensure_ascii=False)
 print("patched workflow ->", dst)
 PY
 
+# 크기·위치가 밀리는 문제를 줄인 버전(인코더의 VAE 입력을 끊고 ReferenceLatent로 원본 크기 latent를 넣음)
+curl -fsSL -o $WF/sprite-edit-2511-outfit-reflatent.json https://raw.githubusercontent.com/qwe179/inky-comfyui/main/workflows/sprite-edit-2511-outfit-reflatent.json \
+  && echo "workflow: reflatent 버전 받음" || echo "workflow: reflatent 버전 못 받음(무시하고 진행)"
+
 # 4) 템플릿이 ComfyUI를 특정 커밋에 고정해 둬서 git pull은 실패한다. fetch + checkout으로 올린다.
 #    (inky-comfyui/start.sh와 같은 방식. 워크플로가 ComfyUI 0.41 이상을 요구한다.)
 until curl -s -o /dev/null localhost:8188; do sleep 10; done
