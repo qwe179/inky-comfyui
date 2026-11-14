@@ -95,7 +95,9 @@ until curl -s -o /dev/null localhost:8188; do sleep 10; done
 cd $C && git fetch origin && git checkout origin/master && $PIP install -r requirements.txt || exit 1
 
 # "[m]ain.py --listen"으로 찾는다. 그냥 main.py로 찾으면 시작 명령 문자열을 가진 1번 프로세스가 잡혀 컨테이너가 통째로 재시작된다.
-P=$(pgrep -f "[m]ain.py --listen" | head -1) && cp /proc/$P/cmdline /tmp/comfy_cmd && kill $P && sleep 5 \
-  && (nohup xargs -0 -a /tmp/comfy_cmd env > /tmp/comfy_restart.log 2>&1 &)
+# 템플릿은 --use-sage-attention 으로 띄우는데, Qwen-Image-Edit-2511은 이 옵션에서 결과가 NaN(검은 이미지)이 된다.
+# 2026-11-14 A40에서 확인: 옵션을 빼고 재시작하자 정상 출력. 그래서 재시작할 때 이 옵션만 뺀다.
+P=$(pgrep -f "[m]ain.py --listen" | head -1) && tr '\0' '\n' < /proc/$P/cmdline | grep -v -- '--use-sage-attention' | tr '\n' '\0' > /tmp/comfy_cmd \
+  && kill $P && sleep 5 && (nohup xargs -0 -a /tmp/comfy_cmd env > /tmp/comfy_restart.log 2>&1 &)
 git log -1 --format="ComfyUI %h %cd"
 echo "READY: 워크플로 sprite-edit-2511-outfit 를 열고, ComfyUI input 칸에 대머리 로테이션 PNG와 leather_refer.png 를 올린다."
