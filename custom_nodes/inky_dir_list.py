@@ -39,6 +39,16 @@ def pick(directions, prompt, image_set, motion_name, index):
     return d, text, image_path, prefix, i, len(rows)
 
 
+class AnyType(str):
+    """어떤 입력에도 연결되게 하는 타입 (LoadImage의 image 칸처럼 목록 칸에 파일 이름을 넣으려고)."""
+
+    def __ne__(self, other):
+        return False
+
+
+ANY = AnyType("*")
+
+
 class DirectionListPick:
     @classmethod
     def INPUT_TYPES(cls):
@@ -50,24 +60,22 @@ class DirectionListPick:
             "index": ("INT", {"default": 0, "min": 0, "max": 9999, "control_after_generate": True}),
         }}
 
-    RETURN_TYPES = ("IMAGE", "STRING", "STRING", "STRING")
-    RETURN_NAMES = ("image", "prompt", "filename_prefix", "direction")
+    # image_name 은 LoadImage 의 image 칸에 연결한다 (input/ 기준 경로, 예: h3i2v/one_hand_south.png)
+    RETURN_TYPES = (ANY, "STRING", "STRING", "STRING")
+    RETURN_NAMES = ("image_name", "prompt", "filename_prefix", "direction")
     FUNCTION = "run"
     CATEGORY = "utils"
 
     def run(self, image_set, motion_name, prompt, directions, index):
-        import numpy as np
-        import torch
-        from PIL import Image
         import folder_paths
 
         d, text, rel, prefix, i, n = pick(directions, prompt, image_set, motion_name, index)
+        rel = rel.replace(os.sep, "/")
         path = os.path.join(folder_paths.get_input_directory(), rel)
         if not os.path.exists(path):
             raise FileNotFoundError(f"입력 이미지가 없어요: {path}")
-        img = np.array(Image.open(path).convert("RGB")).astype(np.float32) / 255.0
-        print(f"[DirectionListPick] {i + 1}/{n} {d} -> {prefix}")
-        return (torch.from_numpy(img)[None, ...], text, prefix, d)
+        print(f"[DirectionListPick] {i + 1}/{n} {d} {rel} -> {prefix}")
+        return (rel, text, prefix, d)
 
 
 NODE_CLASS_MAPPINGS = {"DirectionListPick": DirectionListPick}

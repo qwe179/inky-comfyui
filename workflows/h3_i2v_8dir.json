@@ -1,8 +1,8 @@
 {
  "id": "f6c41c7f-009d-41d6-b0c9-d83b9d8ee121",
  "revision": 0,
- "last_node_id": 205,
- "last_link_id": 423,
+ "last_node_id": 206,
+ "last_link_id": 424,
  "config": {},
  "extra": {
   "frontendVersion": "1.53.6",
@@ -134,13 +134,13 @@
      "name": "first_frame",
      "shape": 7,
      "type": "IMAGE",
-     "link": 406
+     "link": 407
     },
     {
      "name": "last_frame",
      "shape": 7,
      "type": "IMAGE",
-     "link": 407
+     "link": 408
     },
     {
      "name": "prompt",
@@ -148,7 +148,7 @@
      "widget": {
       "name": "prompt"
      },
-     "link": 408
+     "link": 409
     },
     {
      "name": "width",
@@ -156,7 +156,7 @@
      "widget": {
       "name": "width"
      },
-     "link": 409
+     "link": 410
     },
     {
      "name": "height",
@@ -164,7 +164,7 @@
      "widget": {
       "name": "height"
      },
-     "link": 410
+     "link": 411
     },
     {
      "name": "length",
@@ -172,7 +172,7 @@
      "widget": {
       "name": "length"
      },
-     "link": 411
+     "link": 412
     }
    ],
    "outputs": [
@@ -180,14 +180,14 @@
      "name": "positive",
      "type": "CONDITIONING",
      "links": [
-      412
+      413
      ]
     },
     {
      "name": "LATENT",
      "type": "LATENT",
      "links": [
-      413
+      414
      ]
     }
    ],
@@ -223,7 +223,7 @@
     {
      "name": "samples",
      "type": "LATENT",
-     "link": 418
+     "link": 419
     },
     {
      "name": "vae",
@@ -236,8 +236,8 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      419,
-      420
+      420,
+      421
      ]
     }
    ],
@@ -313,7 +313,7 @@
     {
      "name": "conditioning",
      "type": "CONDITIONING",
-     "link": 412
+     "link": 413
     }
    ],
    "outputs": [
@@ -321,7 +321,7 @@
      "name": "GUIDER",
      "type": "GUIDER",
      "links": [
-      415
+      416
      ]
     }
    ],
@@ -353,7 +353,7 @@
      "name": "SAMPLER",
      "type": "SAMPLER",
      "links": [
-      416
+      417
      ]
     }
    ],
@@ -384,27 +384,27 @@
     {
      "name": "noise",
      "type": "NOISE",
-     "link": 414
+     "link": 415
     },
     {
      "name": "guider",
      "type": "GUIDER",
-     "link": 415
+     "link": 416
     },
     {
      "name": "sampler",
      "type": "SAMPLER",
-     "link": 416
+     "link": 417
     },
     {
      "name": "sigmas",
      "type": "SIGMAS",
-     "link": 417
+     "link": 418
     },
     {
      "name": "latent_image",
      "type": "LATENT",
-     "link": 413
+     "link": 414
     }
    ],
    "outputs": [
@@ -412,7 +412,7 @@
      "name": "output",
      "type": "LATENT",
      "links": [
-      418
+      419
      ]
     },
     {
@@ -449,7 +449,7 @@
      "name": "NOISE",
      "type": "NOISE",
      "links": [
-      414
+      415
      ]
     }
    ],
@@ -535,7 +535,7 @@
      "name": "SIGMAS",
      "type": "SIGMAS",
      "links": [
-      417
+      418
      ]
     }
    ],
@@ -568,7 +568,7 @@
     {
      "name": "image",
      "type": "IMAGE",
-     "link": 419
+     "link": 420
     }
    ],
    "outputs": [
@@ -576,7 +576,7 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      421
+      422
      ]
     }
    ],
@@ -606,7 +606,7 @@
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 421
+     "link": 422
     },
     {
      "name": "audio",
@@ -629,7 +629,7 @@
      "widget": {
       "name": "filename_prefix"
      },
-     "link": 422
+     "link": 423
     }
    ],
    "outputs": [
@@ -668,26 +668,25 @@
    "inputs": [],
    "outputs": [
     {
-     "name": "image",
-     "type": "IMAGE",
+     "name": "image_name",
+     "type": "*",
      "links": [
-      406,
-      407
+      406
      ]
     },
     {
      "name": "prompt",
      "type": "STRING",
      "links": [
-      408
+      409
      ]
     },
     {
      "name": "filename_prefix",
      "type": "STRING",
      "links": [
-      422,
-      423
+      423,
+      424
      ]
     },
     {
@@ -729,7 +728,7 @@
      "name": "INT",
      "type": "INT",
      "links": [
-      409
+      410
      ]
     }
    ],
@@ -762,7 +761,7 @@
      "name": "INT",
      "type": "INT",
      "links": [
-      410
+      411
      ]
     }
    ],
@@ -795,7 +794,7 @@
      "name": "INT",
      "type": "INT",
      "links": [
-      411
+      412
      ]
     }
    ],
@@ -828,7 +827,7 @@
     "Node name for S&R": "Note"
    },
    "widgets_values": [
-    "사용법\n1) 방향 목록 노드에서 image_set(base / one_hand / two_hand / dual / shield)과 motion_name, 프롬프트를 고친다. 프롬프트의 {facing} 자리에 방향 문구가 들어간다.\n2) index를 0으로 두고 Run 횟수를 8로 해서 실행 → 8방향이 대기열에 들어간다. 16으로 하면 방향마다 2번씩(seed 다름).\n3) 결과: output/h3i2v/<motion_name>/<방향>_take<n>_*.gif (64px) 와 .mp4 (640px).\n첫 프레임과 마지막 프레임에 같은 그림을 넣어서 동작이 시작 자세로 돌아온다. 끝 자세를 풀고 싶으면 I2V 노드의 last_frame 연결을 끊는다."
+    "사용법\n1) 방향 목록 노드가 Run마다 시작 그림 파일 이름(input/h3i2v/<image_set>_<방향>.png)을 LoadImage에 넣는다. 방향 목록 노드에서 image_set(base / one_hand / two_hand / dual / shield)과 motion_name, 프롬프트를 고친다. 프롬프트의 {facing} 자리에 방향 문구가 들어간다.\n2) index를 0으로 두고 Run 횟수를 8로 해서 실행 → 8방향이 대기열에 들어간다. 16으로 하면 방향마다 2번씩(seed 다름).\n3) 결과: output/h3i2v/<motion_name>/<방향>_take<n>_*.gif (64px) 와 .mp4 (640px).\n첫 프레임과 마지막 프레임에 같은 그림을 넣어서 동작이 시작 자세로 돌아온다. 끝 자세를 풀고 싶으면 I2V 노드의 last_frame 연결을 끊는다."
    ]
   },
   {
@@ -849,7 +848,7 @@
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 420
+     "link": 421
     },
     {
      "name": "audio",
@@ -872,7 +871,7 @@
      "widget": {
       "name": "filename_prefix"
      },
-     "link": 423
+     "link": 424
     }
    ],
    "outputs": [
@@ -897,6 +896,56 @@
     "pingpong": false,
     "save_output": true
    }
+  },
+  {
+   "id": 206,
+   "type": "LoadImage",
+   "pos": [
+    -300,
+    300
+   ],
+   "size": [
+    282.798828125,
+    314
+   ],
+   "flags": {},
+   "order": 19,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "COMBO",
+     "widget": {
+      "name": "image"
+     },
+     "link": 406
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      407,
+      408
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": []
+    }
+   ],
+   "properties": {
+    "cnr_id": "comfy-core",
+    "ver": "0.30.1",
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "h3i2v/one_hand_south.png",
+    "image"
+   ],
+   "title": "시작 그림 (방향 목록이 파일 이름을 넣음)"
   }
  ],
  "links": [
@@ -952,20 +1001,28 @@
    406,
    200,
    0,
+   206,
+   0,
+   "*"
+  ],
+  [
+   407,
+   206,
+   0,
    130,
    2,
    "IMAGE"
   ],
   [
-   407,
-   200,
+   408,
+   206,
    0,
    130,
    3,
    "IMAGE"
   ],
   [
-   408,
+   409,
    200,
    1,
    130,
@@ -973,7 +1030,7 @@
    "STRING"
   ],
   [
-   409,
+   410,
    201,
    0,
    130,
@@ -981,7 +1038,7 @@
    "INT"
   ],
   [
-   410,
+   411,
    202,
    0,
    130,
@@ -989,7 +1046,7 @@
    "INT"
   ],
   [
-   411,
+   412,
    203,
    0,
    130,
@@ -997,7 +1054,7 @@
    "INT"
   ],
   [
-   412,
+   413,
    130,
    0,
    149,
@@ -1005,7 +1062,7 @@
    "CONDITIONING"
   ],
   [
-   413,
+   414,
    130,
    1,
    153,
@@ -1013,7 +1070,7 @@
    "LATENT"
   ],
   [
-   414,
+   415,
    154,
    0,
    153,
@@ -1021,7 +1078,7 @@
    "NOISE"
   ],
   [
-   415,
+   416,
    149,
    0,
    153,
@@ -1029,7 +1086,7 @@
    "GUIDER"
   ],
   [
-   416,
+   417,
    150,
    0,
    153,
@@ -1037,7 +1094,7 @@
    "SAMPLER"
   ],
   [
-   417,
+   418,
    184,
    0,
    153,
@@ -1045,7 +1102,7 @@
    "SIGMAS"
   ],
   [
-   418,
+   419,
    153,
    0,
    133,
@@ -1053,7 +1110,7 @@
    "LATENT"
   ],
   [
-   419,
+   420,
    133,
    0,
    186,
@@ -1061,7 +1118,7 @@
    "IMAGE"
   ],
   [
-   420,
+   421,
    133,
    0,
    205,
@@ -1069,7 +1126,7 @@
    "IMAGE"
   ],
   [
-   421,
+   422,
    186,
    0,
    187,
@@ -1077,7 +1134,7 @@
    "IMAGE"
   ],
   [
-   422,
+   423,
    200,
    2,
    187,
@@ -1085,7 +1142,7 @@
    "STRING"
   ],
   [
-   423,
+   424,
    200,
    2,
    205,
