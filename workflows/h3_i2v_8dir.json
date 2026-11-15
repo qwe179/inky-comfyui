@@ -131,18 +131,6 @@
      "link": 404
     },
     {
-     "name": "first_frame",
-     "shape": 7,
-     "type": "IMAGE",
-     "link": 407
-    },
-    {
-     "name": "last_frame",
-     "shape": 7,
-     "type": "IMAGE",
-     "link": 408
-    },
-    {
      "name": "prompt",
      "type": "STRING",
      "widget": {
@@ -173,6 +161,18 @@
       "name": "length"
      },
      "link": 412
+    },
+    {
+     "name": "first_frame",
+     "shape": 7,
+     "type": "IMAGE",
+     "link": 407
+    },
+    {
+     "name": "last_frame",
+     "shape": 7,
+     "type": "IMAGE",
+     "link": 408
     }
    ],
    "outputs": [
@@ -1010,7 +1010,7 @@
    206,
    0,
    130,
-   2,
+   6,
    "IMAGE"
   ],
   [
@@ -1018,7 +1018,7 @@
    206,
    0,
    130,
-   3,
+   7,
    "IMAGE"
   ],
   [
@@ -1026,7 +1026,7 @@
    200,
    1,
    130,
-   4,
+   2,
    "STRING"
   ],
   [
@@ -1034,7 +1034,7 @@
    201,
    0,
    130,
-   5,
+   3,
    "INT"
   ],
   [
@@ -1042,7 +1042,7 @@
    202,
    0,
    130,
-   6,
+   4,
    "INT"
   ],
   [
@@ -1050,7 +1050,7 @@
    203,
    0,
    130,
-   7,
+   5,
    "INT"
   ],
   [
