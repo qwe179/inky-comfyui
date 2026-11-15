@@ -6,7 +6,7 @@
 #   curl -fsSL https://raw.githubusercontent.com/qwe179/inky-comfyui/main/h3_i2v_start.sh | bash > /tmp/i2v_setup.log 2>&1 &
 # 하는 일:
 #   1) I2V 모델 받기 (fl2va pruned int8 21GB + 텍스트 인코더 int8 27GB + 영상 VAE + 8step turbo LoRA 2GB, 약 52GB)
-#   2) 방향 목록 노드(custom_nodes/inky_dir_list.py), 워크플로 h3_i2v_8dir, 입력 그림 40장(5세트 × 8방향, 640px) 받기
+#   2) 방향 목록 노드(custom_nodes/inky_dir_list.py), 워크플로 h3_i2v_8dir_<세트> 5개, 입력 그림 40장(5세트 × 8방향, 640px) 받기
 #   3) VHS가 없으면 설치, ComfyUI에 MiniMaxH3ImageToVideo가 없으면 최신으로 올리기, 재시작(--use-sage-attention 뺌)
 # 로그 /tmp/i2v_setup.log, 마지막 줄 READY.
 
@@ -27,7 +27,9 @@ $G -P $M/loras            $H/loras/minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16
 # 2) 노드 + 워크플로 + 입력 (base / one_hand / two_hand / dual / shield × 8방향)
 R=https://raw.githubusercontent.com/qwe179/inky-comfyui/main
 curl -fsSL -o $C/custom_nodes/inky_dir_list.py $R/custom_nodes/inky_dir_list.py && echo "node ok"
-curl -fsSL -o $WF/h3_i2v_8dir.json $R/workflows/h3_i2v_8dir.json && echo "workflow ok"
+for s in one_hand two_hand dual shield base; do
+  curl -fsSL -o $WF/h3_i2v_8dir_$s.json $R/workflows/h3_i2v_8dir_$s.json && echo "workflow $s ok"
+done
 n=0
 for s in base one_hand two_hand dual shield; do
   for d in south south-east east north-east north north-west west south-west; do
@@ -50,4 +52,4 @@ for t in MiniMaxH3ImageToVideo DirectionListPick VHS_VideoCombine PrimitiveInt; 
   curl -s localhost:8188/object_info/$t | grep -q "\"$t\"" && echo "노드 $t ok" || echo "노드 $t 없음!"
 done
 cd $C && git log -1 --format="ComfyUI %h %cd"
-echo "READY: 브라우저 F5 → 워크플로 h3_i2v_8dir 열기 → 방향 목록 노드 확인 → Run 횟수 8로 실행. 결과 output/h3i2v/<motion_name>/"
+echo "READY: 브라우저 F5 → 워크플로 h3_i2v_8dir_<세트> 열기 → 방향 목록 노드 확인 → Run 횟수 8로 실행. 결과 output/h3i2v/<motion_name>/"

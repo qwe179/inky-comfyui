@@ -27,8 +27,8 @@ bash -c '(curl -fsSL https://raw.githubusercontent.com/qwe179/inky-comfyui/main/
 | 파일 | 내용 |
 |---|---|
 | `h3_i2v_start.sh` | I2V 모델(약 52GB)·노드·워크플로·입력을 받고 ComfyUI를 재시작. 로그 `/tmp/i2v_setup.log` 마지막 줄 READY |
-| `workflows/h3_i2v_8dir.json` | H3 I2V 워크플로. 방향 목록 노드가 Run마다 다음 방향의 시작 그림 파일 이름(LoadImage에 연결)·프롬프트·저장 이름을 넘긴다. Run 횟수 8 = 8방향 |
-| `custom_nodes/inky_dir_list.py` | 방향 목록 노드 (Direction List Pick). `{facing}` 자리에 방향 문구를 넣는다 |
+| `workflows/h3_i2v_8dir_<세트>.json` | H3 I2V 워크플로 5개(one_hand, two_hand, dual, shield, base). 방향별 LoadImage 8개 → 방향 목록 노드가 Run마다 그중 하나와 프롬프트·저장 이름을 골라 I2V에 넘긴다. Run 횟수 8 = 8방향. one_hand만 프롬프트가 채워져 있고 나머지는 DESCRIBE THE MOTION HERE 자리를 채워서 쓴다 |
+| `custom_nodes/inky_dir_list.py` | 방향 목록 노드 (Direction List Pick). 그림 입력 8개 중 index번째를 고르고, 프롬프트의 `{facing}` 자리에 방향 문구를 넣는다 |
 | `inputs/h3i2v/<세트>_<방향>.png` | 64px 대머리를 10배(640px, 흰 배경)로 키운 시작 그림. 세트: base(맨손), one_hand, two_hand, dual, shield |
 
 결과는 `output/h3i2v/<motion_name>/<방향>_take<n>_*.gif`(64px)와 `.mp4`(640px).
