@@ -7,7 +7,7 @@ until [ -d /ComfyUI/models ]; do sleep 5; done
 mkdir -p /ComfyUI/models/checkpoints /ComfyUI/models/text_encoders /ComfyUI/user/default/workflows /ComfyUI/custom_nodes
 
 R=https://raw.githubusercontent.com/qwe179/inky-comfyui/main
-for w in audio_yue2_song_list audio_stable_audio_3_song_list; do
+for w in audio_yue2_song_list audio_stable_audio_3_song_list audio_stable_audio_3_video; do
   wget -q -O /ComfyUI/user/default/workflows/$w.json $R/workflows/$w.json
 done
 wget -q -O /ComfyUI/custom_nodes/inky_song_list.py $R/custom_nodes/inky_song_list.py
